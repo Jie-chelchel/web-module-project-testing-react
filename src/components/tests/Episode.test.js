@@ -1,32 +1,51 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import Episode from './../Episode';
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import Episode from "./../Episode";
 
 const testEpisode = {
-    id:1,
-    name: "",
-    image: "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
-    season: 1,
-    number: 1,
-    summary: "",
-    runtime: 1
-}
+  id: 1,
+  name: "",
+  image:
+    "http://static.tvmaze.com/uploads/images/medium_landscape/67/168918.jpg",
+  season: 1,
+  number: 1,
+  summary: "One year after the events with the",
+  runtime: 1,
+};
 
 const testEpisodeWithoutImage = {
-    //Add in approprate test data structure here.
-}
+  //Add in approprate test data structure here.
+  id: 1,
+  name: "",
+  image: null,
+  season: 1,
+  number: 1,
+  summary: "One year after the events with the",
+  runtime: 1,
+};
 
 test("renders without error", () => {
-
+  render(<Episode episode={testEpisode} />);
 });
 
-test("renders the summury test passed as prop", ()=>{
-    
+test("renders the summury test passed as prop", () => {
+  render(<Episode episode={testEpisode} />);
+  const summeryEelement = screen.getByText(
+    /One year after the events with the/i
+  );
+  expect(summeryEelement).toBeInTheDocument();
+  expect(summeryEelement).toBeTruthy();
+  expect(summeryEelement).not.toBeNull();
+  expect(summeryEelement).toHaveTextContent(/year after the events/i, {
+    exact: false,
+  });
 });
 
-test("renders default image when image is not defined", ()=>{
-    
-})
+test("renders default image when image is not defined", () => {
+  render(<Episode episode={testEpisodeWithoutImage} />);
+  const imgElement = screen.getByAltText("./stranger_things.png");
+  expect(imgElement).toBeTruthy();
+});
 
 //Tasks
 //1. Complete a test that shows the Episode component renders. Pass in the provided example episode data as a test prop.
